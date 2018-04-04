@@ -1,0 +1,46 @@
+＃　简单桶排序
+＃　对单纯数字进行排序
+def bucksort(A):
+    bucks = dict()        # 桶
+    for i in A:
+        bucks.setdefault(i, [])   # 每个桶默认为空列表
+        bucks[i].append(i)        # 往每个桶中添加元素
+        
+    A_sort = []
+    for i in range(min(A), max(A) + 1):
+        if i in bucks:　　　　　　 # 检查是否存在对应数字的桶
+            A_sort.extend(bucks[i]) #　合并桶中的数据
+            # 从大到小排序
+            # A_sort.sort(reverse = True)
+    return A_sort
+    
+
+# 对非数字类型进行排序
+# 如对学生进行按分数排序
+# 包含其他元素的桶排序
+class Person(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+    def __repr__(self):
+        return self.name + '-' + str(self.score)
+        
+def bucksort2(A):
+    bucks = dict()
+    for a in A:
+        bucks.setdefault(a.score, [])  # 以个人分数为评价排列标准
+        bucks[a.score].append(a)　　　　# 在相同分数的桶中添加人
+        
+    A_sort = []
+    scorelist = [a.score for a in A]   # 将人员列表中所有人的分数取出
+    for i in range(min(scorelist), max(scorelist) + 1):
+        if i in bucks:
+            A_sort.extend(bucks[i])
+    # 按从大到小进行排序
+    # A_sort.sort(reverse = true)
+    return A_sort
+    
+B = [Person('aa', 5), Person('sa', 6), Person('gf', 9), Person('ew', 5)]
+b = bucksort2(B)
+print(b)    # [aa-5, ew-5, sa-6, gf-9]
+    
