@@ -1,0 +1,32 @@
+# 错误的递归
+# 对象的引用
+def bubblesort_rec_bad(A):
+    if len(A) == 1:
+        return
+    for j in range(len(A) - 1):
+        if A[j] < A[j + 1]:
+            A[j], A[j + 1] = A[j + 1], A[j]
+    bubblesort_rec_bad(A[:-1])       # 深复制
+# 递归调用参数传递中，　A[:-1]表示列表A 的前 n-1　个元素，　并将其值复制一份获得一个新的列表
+
+# 正确的递归
+def bubblesort_rec(A, i):
+    if i == 1:
+        return
+    for j in range(i - 1):
+        if A[j] < A[j + 1]:
+            A[j], A[j + 1] = A[j + 1], A[j]
+            
+    bubblesort_rec(A, i-1)
+A = [12, 35, 99, 16, 76]
+bubblesort_rec(A, len(A))
+print(A)                 # [99, 76, 35, 16, 12]
+
+# 用两层循环实现
+def bubblesort(A):
+    n = len(A)
+    for i in range(n, 1, -1):   # i = n, n-1, n-2, ..., 2
+        for j in range(i-1):
+            if A[j] < A[j + 1]:
+                A[j], A[j+1] = A[j+1], A[j]
+                
