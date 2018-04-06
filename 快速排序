@@ -1,0 +1,44 @@
+def quicksort_rec(A, lft=None, rgt=None):
+    if lft == None or rgt == None:
+        lft, rgt = 0, len(A)-1
+    if lft > rgt:
+        return
+        
+    i = lft
+    j = rgt
+    base = lft
+    while i != j:
+        while A[j] >= A[base] and i < j:
+            j -= 1
+        while A[i] <= A[base] and i < j:
+            i += 1
+        if i < j:
+            A[i], A[j] = A[j], A[i]
+    A[base], A[i] = A[i], A[base]
+    quicksort_rec(A, lft, i-1)
+    quicksort_rec(A, i+1, rgt)
+    
+    
+# 另一种方式
+def partition(seq):
+    pi, seq = seq[0], seq[1:]
+    lo = [x for x in seq if x <= pi]
+    hi = [x for x in seq if x > pi]
+    return lo, pi, hi
+    
+def quicksort(seq):
+    if len(seq) <= 1:
+        return seq
+    lo, pi, hi = partition(seq)
+    return quicksort(lo) + [pi] + quicksort(hi)
+    
+# 利用上面的函数，使用二分法来查找第k个最小的元素
+def select(seq, k):
+    lo, pi, hi = partition(seq)
+    m = len(lo)
+    if m == k:
+        return pi
+    elif m < k:
+        return select(hi, k-m-1)
+    else:
+        return select(lo, k)
